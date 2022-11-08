@@ -3,4 +3,4 @@ numpy
 tvdatafeed
 pandas_ta
 streamlit
-pretty_html_table
+pretty-html-table
