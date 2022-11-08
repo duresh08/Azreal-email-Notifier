@@ -1,10 +1,13 @@
 import streamlit as st
 
-from smtplib import SMTP
 from email.mime.text import MIMEText
+from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 
-from pretty_html_table import build_table
+from smtplib import SMTP
+import smtplib
+import sys
+
 
 from datetime import datetime
 
@@ -169,22 +172,6 @@ def FEMUR():
     ,"Heiken Ashi Boolean","Stochastic %K","Stochastic %D","Peak Value","Stochastic Peak Value"], axis = 1)
     return Final_df
 
-def send_mail(body):
-    message = MIMEMultipart()
-    message['Subject'] = 'Azreal Update'
-    message['From'] = 'dhruv.suresh2@gmail.com'
-    message['To'] = 'f20180884g@alumni.bits-pilani.ac.in'
-
-    body_content = body
-    message.attach(MIMEText(body_content, "html"))
-    msg_body = message.as_string()
-
-    server = SMTP('smtp.gmail.com', 587)
-    server.starttls()
-    server.login(message['From'], 'nterwjjlblthqkri')
-    server.sendmail(message['From'], message['To'], msg_body)
-    server.quit()
-
 st.title("Notification Engine")
 
 while True:
@@ -197,5 +184,21 @@ while True:
     Waiting_time = 7210 - delta_s
     time.sleep(Waiting_time)
     Output = FEMUR()
-    mail_output = build_table(Output, 'blue_light')
-    send_mail(mail_output)
+    msg = MIMEMultipart()
+    msg['Subject'] = "Azreal Notification"
+    msg['From'] = 'dhruv.suresh2@gmail.com'
+    html = """\
+    <html>
+      <head></head>
+      <body>
+        {0}
+      </body>
+    </html>
+    """.format(Output.to_html())
+    part1 = MIMEText(html, 'html')
+    msg.attach(part1)
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.starttls()
+    server.login('dhruv.suresh2@gmail.com','nterwjjlblthqkri')
+    server.sendmail(msg['From'], 'f20180884g@alumni.bits-pilani.ac.in' , msg.as_string())
+    server.close()
