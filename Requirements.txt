@@ -1,0 +1,8 @@
+pandas
+numpy
+tvdatafeed
+pandas_ta
+streamlit
+pretty-html-table
+time
+datetime
