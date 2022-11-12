@@ -8,7 +8,6 @@ from smtplib import SMTP
 import smtplib
 import sys
 
-
 from datetime import datetime
 
 from tvDatafeed import TvDatafeed, Interval
@@ -173,32 +172,32 @@ def FEMUR():
     return Final_df
 
 st.title("Notification Engine")
+initialize_bool = False
 
 while True:
-    Output = FEMUR()
-    Index_list = list(Output.index.values)
-    Recent_Open_Time = Index_list[0]
-    Current_Time = np.datetime64(datetime.now())
-    x = Current_Time - Recent_Open_Time
-    delta_s = x.astype('timedelta64[s]').astype(np.int64)
-    Waiting_time = 7210 - delta_s
-    time.sleep(Waiting_time)
-    Output = FEMUR()
-    msg = MIMEMultipart()
-    msg['Subject'] = "Azreal Notification"
-    msg['From'] = 'dhruv.suresh2@gmail.com'
-    html = """\
-    <html>
-      <head></head>
-      <body>
-        {0}
-      </body>
-    </html>
-    """.format(Output.to_html())
-    part1 = MIMEText(html, 'html')
-    msg.attach(part1)
-    server = smtplib.SMTP('smtp.gmail.com', 587)
-    server.starttls()
-    server.login('dhruv.suresh2@gmail.com','nterwjjlblthqkri')
-    server.sendmail(msg['From'], 'f20180884g@alumni.bits-pilani.ac.in' , msg.as_string())
-    server.close()
+    if initialize_bool == False:
+        Output = FEMUR()
+        initialize_bool = True
+    else:
+        while Output.equals(FEMUR()):
+            time.sleep(60)
+        Output = FEMUR()
+        Output = Output[pd.isna(Output['Divergence']) == False]
+        msg = MIMEMultipart()
+        msg['Subject'] = "Azreal Notification"
+        msg['From'] = 'dhruv.suresh2@gmail.com'
+        html = """\
+        <html>
+          <head></head>
+          <body>
+            {0}
+          </body>
+        </html>
+        """.format(Output.to_html())
+        part1 = MIMEText(html, 'html')
+        msg.attach(part1)
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login('dhruv.suresh2@gmail.com','nterwjjlblthqkri')
+        server.sendmail(msg['From'], 'f20180884g@alumni.bits-pilani.ac.in' , msg.as_string())
+        server.close()
