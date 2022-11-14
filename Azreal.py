@@ -175,12 +175,10 @@ st.title("Notification Engine")
 initialize_bool = False
 
 while True:
-    if initialize_bool == False:
-        Output = FEMUR()
-        initialize_bool = True
-    else:
-        while Output.equals(FEMUR()):
-            time.sleep(60)
+    dt_now = datetime.now().time()
+    dt_hour = dt_now.hour
+    dt_minute = dt_now.minute
+    if dt_minute == 0:
         Output = FEMUR()
         Output_msg = Output[pd.isna(Output['Divergence']) == False]
         msg = MIMEMultipart()
@@ -201,3 +199,8 @@ while True:
         server.login('dhruv.suresh2@gmail.com','nterwjjlblthqkri')
         server.sendmail(msg['From'], 'f20180884g@alumni.bits-pilani.ac.in' , msg.as_string())
         server.close()
+        time.sleep(60)
+    else:
+        sleep_minutes = 60 - dt_minute
+        sleep_seconds = sleep_minutes*60
+        time.sleep(sleep_seconds)
