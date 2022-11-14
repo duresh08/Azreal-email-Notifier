@@ -182,7 +182,7 @@ while True:
         while Output.equals(FEMUR()):
             time.sleep(60)
         Output = FEMUR()
-        Output = Output[pd.isna(Output['Divergence']) == False]
+        Output_msg = Output[pd.isna(Output['Divergence']) == False]
         msg = MIMEMultipart()
         msg['Subject'] = "Azreal Notification"
         msg['From'] = 'dhruv.suresh2@gmail.com'
@@ -193,7 +193,7 @@ while True:
             {0}
           </body>
         </html>
-        """.format(Output.to_html())
+        """.format(Output_msg.to_html())
         part1 = MIMEText(html, 'html')
         msg.attach(part1)
         server = smtplib.SMTP('smtp.gmail.com', 587)
