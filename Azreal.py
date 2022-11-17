@@ -178,6 +178,7 @@ while True:
     dt_now = datetime.now().time()
     dt_hour = dt_now.hour
     dt_minute = dt_now.minute
+    dt_second = dt_now.second
     if dt_minute == 0:
         Output = FEMUR()
         Output_msg = Output[pd.isna(Output['Divergence']) == False]
@@ -201,6 +202,6 @@ while True:
         server.close()
         time.sleep(60)
     else:
-        sleep_minutes = 60 - dt_minute
-        sleep_seconds = sleep_minutes*60
+        sleep_minutes = 59 - dt_minute
+        sleep_seconds = sleep_minutes*60 + (69 - dt_second)
         time.sleep(sleep_seconds)
