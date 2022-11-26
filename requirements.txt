@@ -1,5 +1,5 @@
 pandas
 numpy
-tvdatafeed==2.0.0
+tvdatafeed
 pandas_ta
 streamlit
