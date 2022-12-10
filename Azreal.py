@@ -197,7 +197,7 @@ while True:
         msg.attach(part1)
         server = smtplib.SMTP('smtp.gmail.com', 587)
         server.starttls()
-        server.login('dhruv.suresh2@gmail.com','nterwjjlblthqkri')
+        server.login('dhruv.suresh2@gmail.com', st.secrets["password"])
         server.sendmail(msg['From'], 'f20180884g@alumni.bits-pilani.ac.in' , msg.as_string())
         server.close()
         time.sleep(60)
