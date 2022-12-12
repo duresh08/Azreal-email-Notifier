@@ -6,7 +6,7 @@ from smtplib import SMTP
 import smtplib
 import sys
 
-if st.button("Send Email):
+if st.button("Send Email"):
   password = st.secrets["password"]
   Output_msg = "Test Message"
   msg = MIMEMultipart()
