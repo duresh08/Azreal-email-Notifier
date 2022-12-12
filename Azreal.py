@@ -174,26 +174,35 @@ def FEMUR():
 st.title("Notification Engine")
 initialize_bool = False
 
-if st.button("Send Mail"):
-    password_mail = st.secrets["password"]
-    Output = FEMUR()
-    Output_msg = Output[pd.isna(Output['Divergence']) == False]
-    msg = MIMEMultipart()
-    msg['Subject'] = "Azreal Notification"
-    msg['From'] = 'dhruv.suresh2@gmail.com'
-    html = """\
-    <html>
-      <head></head>
-      <body>
-        {0}
-      </body>
-    </html>
-    """.format(Output_msg.to_html())
-    part1 = MIMEText(html, 'html')
-    msg.attach(part1)
-    server = smtplib.SMTP('smtp.gmail.com', 587)
-    server.starttls()
-    server.login('dhruv.suresh2@gmail.com', password_mail)
-    server.sendmail(msg['From'], 'f20180884g@alumni.bits-pilani.ac.in' , msg.as_string())
-    server.close()
-    time.sleep(60)
+while True:
+    dt_now = datetime.now().time()
+    dt_hour = dt_now.hour
+    dt_minute = dt_now.minute
+    dt_second = dt_now.second
+    if dt_minute == 0:
+        password_mail = st.secrets["password"]
+        Output = FEMUR()
+        Output_msg = Output[pd.isna(Output['Divergence']) == False]
+        msg = MIMEMultipart()
+        msg['Subject'] = "Azreal Notification"
+        msg['From'] = 'dhruv.suresh2@gmail.com'
+        html = """\
+        <html>
+          <head></head>
+          <body>
+            {0}
+          </body>
+        </html>
+        """.format(Output_msg.to_html())
+        part1 = MIMEText(html, 'html')
+        msg.attach(part1)
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login('dhruv.suresh2@gmail.com', password_mail)
+        server.sendmail(msg['From'], 'f20180884g@alumni.bits-pilani.ac.in' , msg.as_string())
+        server.close()
+        time.sleep(60)
+    else:
+        sleep_minutes = 59 - dt_minute
+        sleep_seconds = sleep_minutes*60 + (69 - dt_second)
+        time.sleep(sleep_seconds)
