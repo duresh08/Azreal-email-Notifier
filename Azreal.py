@@ -6,9 +6,14 @@ from smtplib import SMTP
 import smtplib
 import sys
 
+import pandas as pd
+
+data = {"Col 1":[1,2,3,4],"Col 2":[5,6,7,8]}
+df = pd.DataFrame(data)
+
 if st.button("Send Email"):
   password = st.secrets["password"]
-  Output_msg = "Test Message"
+  Output_msg = df
   msg = MIMEMultipart()
   msg['Subject'] = "Azreal Notification"
   msg['From'] = 'dhruv.suresh2@gmail.com'
