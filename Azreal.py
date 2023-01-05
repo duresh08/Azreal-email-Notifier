@@ -147,17 +147,11 @@ def FEMUR():
               if(Currency_Pair["close"][i] >= Swing_High_Recent and Currency_Pair["Stochastic %K"][i] <= Stochastic_High_Recent):
                 Divergence_List[i] = "Regular Divergence Short"
                 i+=1
-              elif(Currency_Pair["close"][i] <= Swing_High_Recent and Currency_Pair["Stochastic %K"][i] >= Stochastic_High_Recent):
-                Divergence_List[i] = "Hidden Divergence Short"
-                i+=1
               else:
                 i+=1
             elif (Looking_For_Longs == True):
                 if(Currency_Pair["close"][i] <= Swing_Low_Recent and Currency_Pair["Stochastic %K"][i] >= Stochastic_Low_Recent):
                   Divergence_List[i] = "Regular Divergence Long"
-                  i+=1
-                elif(Currency_Pair["close"][i] >= Swing_Low_Recent and Currency_Pair["Stochastic %K"][i] <= Stochastic_Low_Recent):
-                  Divergence_List[i] = "Hidden Divergence Long"
                   i+=1
                 else:
                   i+=1
